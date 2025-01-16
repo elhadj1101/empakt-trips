@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Weather Map</title>
+  
+  <!-- Mapbox GL CSS -->
+  <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
+  
+  <!-- Mapbox Directions Plugin CSS -->
+  <link href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.1/mapbox-gl-directions.css" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Map Container -->
+  <div id="map"></div>
+  
+  <!-- Weather Controls -->
+  <div id="weather-controls">
+    <button onclick="toggleWeatherLayer('temp')">🌡️ Temperature</button>
+    <button onclick="toggleWeatherLayer('precipitation')">🌧️ Precipitation</button>
+    <button onclick="toggleWeatherLayer('wind')">💨 Wind</button>
+    <button onclick="toggleWeatherLayer('clouds')">☁️ Clouds</button>
+    <button onclick="clearWeatherLayers()">🗑️ Clear Layers</button>
+  </div>
+  
+  <!-- Weather Information -->
+  <div id="weather-info">
+    <h3>Weather Information</h3>
+    <div id="weather-details">Click a location to view weather details.</div>
+  </div>
+
+  <!-- Mapbox GL JS -->
+  <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+  <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.1/mapbox-gl-directions.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
