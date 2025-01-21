@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Planner</title>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet' />
+    <link href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.1/mapbox-gl-directions.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body class="dark-theme">
+    <div class="app-container">
+        <div class="map-container">
+            <div id="map"></div>
+            <div class="weather-controls">
+                <h3>Weather Layers</h3>
+                <div class="weather-buttons">
+                    <button onclick="toggleWeatherLayer('temp')">🌡️ Temperature</button>
+                    <button onclick="toggleWeatherLayer('precipitation')">🌧️ Precipitation</button>
+                    
+                    
+                    
+                </div>
+            </div>
+            <div id="weather-info">
+                <h3>Weather Information</h3>
+                <div id="weather-details">Click a location to view weather details.</div>
+            </div>
+            <div class="map-controls">
+            </div>
+            <div id="weatherInfo" class="weather-info"></div>
+        </div>
+        <div class="chat-container">
+            <div class="chat-messages" id="chatMessages">
+                <!-- Messages will be dynamically inserted here -->
+            </div>
+            <div class="chat-input-container">
+                <textarea id="chatInput" placeholder="Ask about your travel plans..."></textarea>
+                <button id="sendMessage">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js'></script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.1/mapbox-gl-directions.js"></script>
+    <script src="scripts/carousel.js"></script>
+    <script src="scripts/mapbox-integration.js"></script>
+    <script src="scripts/chat.js"></script>
+    <script src="scripts/app.js"></script>
+</body>
+</html>
