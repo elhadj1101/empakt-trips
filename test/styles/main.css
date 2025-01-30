@@ -1,0 +1,1251 @@
+:root {
+    --background-primary: #1a1a1a;
+    --background-secondary: #2d2d2d;
+    --text-primary: #ffffff;
+    --text-secondary: #b3b3b3;
+    --accent-color: #00a699;
+    --chat-user-bubble: #00a699;
+    --chat-ai-bubble: #2d2d2d;
+    --border-radius: 12px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background-color: var(--background-primary);
+    color: white;
+    line-height: 1.6;
+}
+
+.app-container {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.map-container {
+    position: relative;
+    height: 100%;
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+}
+
+.chat-container {
+    background-color: var(--background-secondary);
+    border-left: 1px solid #3d3d3d;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 300px;
+}
+
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    scroll-behavior: smooth;
+}
+
+.message {
+    margin-bottom: 16px;
+    max-width: 85%;
+    padding: 12px 16px;
+    border-radius: var(--border-radius);
+    line-height: 1.5;
+}
+
+.message.user {
+    background-color: var(--chat-user-bubble);
+    margin-left: auto;
+    border-bottom-right-radius: 4px;
+}
+
+.message.ai {
+    background-color: var(--chat-ai-bubble);
+    margin-right: auto;
+    border-bottom-left-radius: 4px;
+}
+
+.message a {
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
+.message a:hover {
+    text-decoration: underline;
+}
+
+.message strong {
+    color: var(--accent-color);
+}
+
+.message.typing {
+    display: flex;
+    align-items: center;
+    min-height: 24px;
+    padding: 8px 16px;
+}
+
+.message.typing::after {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--text-primary);
+    border-radius: 50%;
+    animation: typing 1s infinite;
+    margin-left: 4px;
+}
+
+@keyframes typing {
+    0%, 100% { opacity: 0.2; }
+    50% { opacity: 1; }
+}
+
+.chat-input-container {
+    padding: 15px;
+    border-top: 1px solid #3d3d3d;
+    background-color: var(--background-secondary);
+}
+
+#chatInput {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #3d3d3d;
+    border-radius: var(--border-radius);
+    background-color: var(--background-primary);
+    color: white;
+    resize: none;
+    margin-bottom: 10px;
+    font-size: 14px;
+    transition: border-color 0.2s ease;
+}
+
+#chatInput:focus {
+    border-color: var(--accent-color);
+    outline: none;
+}
+
+#sendMessage {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+}
+
+#sendMessage:hover {
+    background-color: #008f84;
+}
+
+/* Chat Suggestions */
+.chat-suggestions {
+    padding: 10px;
+    border-top: 1px solid #3d3d3d;
+}
+
+.suggestion-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.suggestion-chips button {
+    background-color: var(--background-primary);
+    color: var(--text-primary);
+    border: 1px solid var(--accent-color);
+    border-radius: 16px;
+    padding: 6px 12px;
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.suggestion-chips button:hover {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--background-primary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: #4d4d4d;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #5d5d5d;
+}
+
+/* Carousel Styles */
+.mapboxgl-popup-content {
+    background: rgba(45, 45, 45, 0.95);
+    color: white;
+    border-radius: 8px;
+    padding: 0;
+    max-width: 320px;
+}
+
+.carousel-container {
+    position: relative;
+    width: 100%;
+    max-width: 320px;
+}
+
+.carousel-slide {
+    display: none;
+    width: 100%;
+}
+
+.carousel-slide.active {
+    display: block;
+}
+
+.carousel-slide img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.carousel-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 8px;
+    cursor: pointer;
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.carousel-prev {
+    left: 10px;
+}
+
+.carousel-next {
+    right: 10px;
+}
+
+.carousel-dots {
+    display: flex;
+    justify-content: center;
+    padding: 8px 0;
+}
+
+.carousel-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    margin: 0 4px;
+    cursor: pointer;
+}
+
+.carousel-dot.active {
+    background: white;
+}
+
+.location-info {
+    padding: 16px;
+    background-color: var(--background-secondary);
+    border-radius: var(--border-radius);
+    margin-top: 12px;
+}
+
+.location-info h3 {
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    font-size: 1.2em;
+}
+
+.location-info p {
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+    font-size: 0.95em;
+    line-height: 1.5;
+}
+
+.book-button {
+    display: inline-block;
+    background-color: var(--accent-color);
+    color: white;
+    padding: 12px 24px;
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    font-weight: 600;
+    margin-top: 16px;
+    transition: all 0.3s ease;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.book-button:hover {
+    background-color: #008f84;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+}
+
+.book-trip-button {
+    display: block;
+    width: 100%;
+    padding: 12px 20px;
+    margin-top: 16px;
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    text-decoration: none;
+    text-align: center;
+}
+
+.book-trip-button:hover {
+    background-color: #008f84;
+}
+
+/* Map Controls Container */
+.map-controls {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 20px;
+    z-index: 1000;
+    width: 90%;
+    max-width: 1200px;
+}
+
+/* Route Planner */
+.route-planner {
+    flex: 1;
+    background: rgba(45, 45, 45, 0.9);
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.route-planner h3,
+.weather-controls h3 {
+    color: var(--text-primary);
+    margin: 0 0 15px 0;
+    font-size: 1.1em;
+    text-align: center;
+}
+
+.route-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.location-input {
+    display: flex;
+    gap: 10px;
+}
+
+.location-input input {
+    flex: 1;
+    padding: 8px;
+    background: var(--background-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--accent-color);
+    border-radius: 4px;
+}
+
+.transport-modes {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.transport-btn {
+    padding: 10px 20px;
+    background: var(--background-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--accent-color);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 1.2em;
+}
+
+.transport-btn:hover {
+    background: var(--accent-color);
+}
+
+.transport-btn.active {
+    background: var(--accent-color);
+}
+
+.route-info {
+    padding: 10px;
+    background: var(--background-secondary);
+    border-radius: 4px;
+    margin-top: 10px;
+    display: none;
+}
+
+.route-info.visible {
+    display: block;
+}
+
+.route-info p {
+    margin: 5px 0;
+    color: var(--text-primary);
+}
+
+.route-info .route-stats {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--accent-color);
+}
+
+/* Routing Button */
+.route-button {
+    display: block;
+    width: 100%;
+    padding: 8px 12px;
+    margin: 10px 0;
+    border: none;
+    border-radius: var(--border-radius);
+    background-color: var(--accent-color);
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9em;
+    text-align: center;
+}
+
+.route-button:hover {
+    transform: translateY(-1px);
+    opacity: 0.9;
+}
+
+/* Update popup styling for routing button */
+.location-popup .mapboxgl-popup-content {
+    min-width: 250px;
+}
+
+/* Weather Controls */
+.weather-controls {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 8px;
+    padding: 10px;
+    z-index: 1001;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    font-size: 0.85em;
+}
+
+.weather-controls h3 {
+    color: black; /* Set Weather Layers title to black */
+    margin-bottom: 10px;
+    font-size: 1.1em;
+}
+
+.weather-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
+
+.weather-buttons button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: var(--border-radius);
+    background-color: var(--accent-color);
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9em;
+}
+
+.weather-buttons button:hover {
+    background-color: #008f84;
+    transform: translateY(-1px);
+}
+
+/* Weather Info Panel */
+#weather-info {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    padding: 10px;
+    z-index: 1000;
+    width: auto;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    font-size: 0.85em;
+}
+
+#weather-info h3 {
+    color: black; /* Set Weather Information title to black */
+    margin-bottom: 10px;
+    font-size: 1.1em;
+}
+
+#weather-details {
+    color: black; /* Set the text color inside Weather Information to black */
+    font-size: 0.9em;
+    line-height: 1.2;
+}
+
+.weather-info-container {
+    color: black; /* Set the text color inside Weather Information to black */
+    font-size: 0.85em;
+    margin: 0; 
+    padding: 0; 
+}
+
+.weather-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 5px;
+    font-size: 1em;
+}
+
+.weather-details {
+    display: grid;
+    gap: 3px;
+    font-size: 0.8em;
+}
+
+.weather-detail {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2px 0;
+}
+
+.weather-detail .label {
+    color: black; /* Set labels in weather details to black */
+    font-weight: bold;
+}
+
+.weather-detail .value {
+    color: black; /* Set values in weather details to black */
+    font-weight: normal;
+}
+
+/* Directions Control */
+.mapboxgl-ctrl-directions {
+    max-width: 300px;
+    background: var(--background-secondary) !important;
+    color: var(--text-primary) !important;
+}
+
+.directions-control-inputs {
+    background: var(--background-secondary) !important;
+}
+
+.mapboxgl-ctrl-directions input {
+    background: var(--background-primary) !important;
+    color: var(--text-primary) !important;
+    border: 1px solid var(--accent-color) !important;
+}
+
+.mapboxgl-ctrl-directions .directions-icon {
+    background-color: var(--accent-color) !important;
+}
+
+/* Country Highlight */
+.country-highlight {
+    cursor: pointer;
+}
+
+.country-highlight:hover {
+    fill-opacity: 0.3 !important;
+}
+
+/* Weather Section in Popup */
+.weather-section {
+    margin: 15px 0;
+    padding: 10px;
+    background: rgba(var(--background-secondary-rgb), 0.5);
+    border-radius: var(--border-radius);
+}
+
+.loading {
+    text-align: center;
+    color: var(--text-secondary);
+    font-style: italic;
+    padding: 10px;
+}
+
+.weather-error {
+    color: #f44336;
+    text-align: center;
+    margin: 0;
+}
+
+.weather-info-container {
+    color: black; /* Set the text color inside Weather Information to black */
+}
+
+.weather-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.weather-icon {
+    width: 40px;
+    height: 40px;
+    filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.3));
+}
+
+.temperature {
+    display: flex;
+    flex-direction: column;
+}
+
+.temp-value {
+    font-size: 1.3em;
+    font-weight: bold;
+}
+
+.feels-like {
+    font-size: 0.85em;
+    color: var(--text-secondary);
+}
+
+.weather-details {
+    display: grid;
+    gap: 4px;
+    font-size: 0.9em;
+}
+
+.weather-detail {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2px 0;
+}
+
+.weather-detail .label {
+    color: grey; /* Set labels in weather details to black */
+}
+
+.weather-detail .value {
+    color: grey; /* Set values in weather details to black */
+    font-weight: 500;
+}
+
+.loading {
+    text-align: center;
+    color: var(--text-secondary);
+    font-style: italic;
+    padding: 8px 0;
+    font-size: 1.1em;
+}
+
+/* Popup Container */
+.popup-container {
+    max-width: 300px;
+}
+
+/* Collapsible Sections */
+.collapsible-container {
+    margin: 10px 0;
+}
+
+.collapsible-section {
+    margin-bottom: 5px;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    background: rgba(var(--background-secondary-rgb), 0.5);
+}
+
+.collapsible-header {
+    width: 100%;
+    padding: 8px 12px;
+    background: none;
+    border: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    color: grey;
+    font-size: 0.95em;
+    transition: background-color 0.3s ease;
+}
+
+.collapsible-header:hover {
+    background: rgba(var(--accent-color-rgb), 0.1);
+}
+
+.toggle-icon {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: var(--accent-color);
+    transition: transform 0.3s ease;
+}
+
+.collapsible-section.active .toggle-icon {
+    transform: rotate(180deg);
+}
+
+.collapsible-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    padding: 0 12px;
+}
+
+.collapsible-section.active .collapsible-content {
+    padding: 8px 12px;
+    border-top: 1px solid rgba(var(--accent-color-rgb), 0.1);
+}
+
+/* Weather Info in Collapsible */
+.weather-info-container {
+    color: black; /* Set the text color inside Weather Information to black */
+}
+
+.weather-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.weather-icon {
+    width: 40px;
+    height: 40px;
+    filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.3));
+}
+
+.temperature {
+    display: flex;
+    flex-direction: column;
+}
+
+.temp-value {
+    font-size: 1.3em;
+    font-weight: bold;
+}
+
+.feels-like {
+    font-size: 0.85em;
+    color: var(--text-secondary);
+}
+
+.weather-details {
+    display: grid;
+    gap: 4px;
+    font-size: 0.9em;
+}
+
+.weather-detail {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2px 0;
+}
+
+.weather-detail .label {
+    color: grey; /* Set labels in weather details to black */
+}
+
+.weather-detail .value {
+    color: grey; /* Set values in weather details to black */
+    font-weight: 500;
+}
+
+.loading {
+    text-align: center;
+    color: var(--text-secondary);
+    font-style: italic;
+    padding: 8px 0;
+    font-size: 1.1em;
+}
+
+/* Update existing popup styles */
+.location-popup .mapboxgl-popup-content {
+    padding: 15px;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.location-info h3 {
+    margin: 0 0 10px 0;
+    color: var(--text-primary);
+    font-size: 1.2em;
+}
+
+/* Buttons */
+.route-button,
+.book-button {
+    margin: 10px 0 0 0;
+}
+
+/* Buttons Container */
+.buttons-container {
+    display: flex;
+    gap: 10px;
+    margin: 10px 0 0 0;
+}
+
+.buttons-container .route-button {
+    flex: 1;
+    margin: 0;
+}
+
+/* Route Buttons */
+.route-button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9em;
+    text-align: center;
+    background-color: var(--accent-color);
+    color: white;
+}
+
+.route-button.end {
+    background-color: #4CAF50;
+}
+
+.route-button.circuit {
+    background-color: #2196F3;
+}
+
+.route-button:hover {
+    transform: translateY(-1px);
+    opacity: 0.9;
+}
+
+.book-button {
+    display: block;
+    width: 100%;
+    padding: 8px 12px;
+    margin-top: 10px;
+    border: none;
+    border-radius: var(--border-radius);
+    background-color: #f44336;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9em;
+    text-align: center;
+    text-decoration: none;
+}
+
+.book-button:hover {
+    transform: translateY(-1px);
+    opacity: 0.9;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .app-container {
+        grid-template-columns: 1fr;
+        height: auto;
+        overflow: visible;
+    }
+
+    .map-container {
+        height: 60vh;
+    }
+
+    .chat-container {
+        width: 100%;
+        height: 40vh;
+        border-left: none;
+        border-top: 1px solid #3d3d3d;
+    }
+
+    .weather-controls {
+        max-width: 100%;
+        padding: 10px;
+    }
+
+    .weather-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .weather-buttons button {
+        flex: 1;
+        min-width: 120px;
+    }
+
+    .message {
+        max-width: 90%;
+    }
+
+    .mapboxgl-popup-content {
+        max-width: 280px;
+    }
+
+    .carousel-container {
+        max-width: 280px;
+    }
+
+    .carousel-slide img {
+        height: 160px;
+    }
+
+    #chatInput {
+        min-height: 40px;
+    }
+
+    #sendMessage {
+        padding: 8px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .map-container {
+        height: 50vh;
+    }
+
+    .chat-container {
+        height: 50vh;
+    }
+
+    .message {
+        max-width: 95%;
+        padding: 8px 12px;
+    }
+
+    .mapboxgl-popup-content {
+        max-width: 240px;
+    }
+
+    .carousel-container {
+        max-width: 240px;
+    }
+
+    .carousel-slide img {
+        height: 140px;
+    }
+
+    .weather-buttons button {
+        padding: 6px 10px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 768px) {
+    .map-controls {
+        flex-direction: column;
+        bottom: 10px;
+        width: 95%;
+    }
+
+    .route-planner,
+    .weather-controls {
+        width: 100%;
+    }
+
+    .weather-buttons {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Adjust map container */
+    #map {
+        height: 50vh; /* Reduce height for smaller screens */
+    }
+    
+    /* Weather Info Panel */
+    #weather-info {
+        width: 100%; /* Full width on mobile */
+        bottom: 0; /* Stick to bottom */
+        right: 0;
+    }
+    
+    /* Weather Controls */
+    .weather-controls {
+        width: 100%; /* Full width on mobile */
+        bottom: 10px;
+        left: 10px;
+    }
+    
+    /* Adjust buttons for mobile */
+    .buttons-container {
+        flex-direction: column; /* Stack buttons vertically */
+        gap: 5px;
+    }
+    
+    .route-button,
+    .book-button {
+        width: 100%; /* Full width buttons */
+    }
+    
+    /* Popup adjustments */
+    .popup-container {
+        max-width: 90%; /* Full width on mobile */
+    }
+    
+    /* Adjust font sizes for readability */
+    .location-info h3,
+    .weather-header span {
+        font-size: 1em; /* Slightly smaller font size */
+    }
+    
+    .weather-detail {
+        font-size: 0.9em; /* Smaller font size for details */
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .chat-suggestions {
+        padding: 8px;
+    }
+
+    .suggestion-chips button {
+        padding: 4px 10px;
+        font-size: 0.8em;
+    }
+
+    .message {
+        max-width: 90%;
+        padding: 10px 14px;
+    }
+
+    .chat-input-container {
+        padding: 10px;
+    }
+
+    #chatInput {
+        padding: 8px;
+        font-size: 16px; /* Better for mobile typing */
+    }
+
+    #sendMessage {
+        padding: 10px;
+    }
+}
+
+.top-controls {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 300px;
+}
+
+.toggle-flight-btn {
+    background: #2196F3;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.toggle-flight-btn:hover {
+    background: #1976D2;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.flight-info {
+    background: white;
+    border-radius: 10px;
+    padding: 15px;
+    margin-top: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    width: 100%;
+    transition: all 0.3s ease;
+    max-height: 500px;
+    overflow: hidden;
+}
+
+.flight-info.collapsed {
+    max-height: 0;
+    padding: 0;
+    margin: 0;
+    opacity: 0;
+}
+
+.flight-search {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.flight-search input {
+    padding: 10px;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.3s;
+}
+
+.flight-search input:focus {
+    border-color: #2196F3;
+    outline: none;
+}
+
+.search-btn {
+    background: #2196F3;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.search-btn:hover {
+    background: #1976D2;
+}
+
+#flight-details {
+    margin-top: 15px;
+    font-size: 14px;
+    color: #333;
+}
+
+.flight-option {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 10px;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.flight-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.flight-number {
+    font-weight: bold;
+    color: #2196F3;
+}
+
+.flight-price {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #2196F3;
+}
+
+.flight-times {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 10px;
+    align-items: center;
+}
+
+.departure, .arrival {
+    text-align: center;
+}
+
+.time {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
+}
+
+.date {
+    color: #666;
+    font-size: 0.9em;
+    margin: 2px 0;
+}
+
+.airport {
+    font-weight: bold;
+    color: #2196F3;
+    margin: 2px 0;
+}
+
+.terminal {
+    font-size: 0.9em;
+    color: #666;
+}
+
+.flight-duration {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #666;
+}
+
+.duration-line {
+    color: #2196F3;
+    font-size: 1.5em;
+    margin: 5px 0;
+}
+
+.duration-time {
+    font-size: 0.9em;
+    color: #666;
+}
+
+.loading {
+    text-align: center;
+    color: #666;
+    padding: 20px;
+}
+
+.error-message {
+    color: #dc3545;
+    background: #ffe6e6;
+    padding: 10px;
+    border-radius: 6px;
+    border-left: 4px solid #dc3545;
+    margin-top: 10px;
+}
