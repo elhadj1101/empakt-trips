@@ -35,24 +35,27 @@ def analyze_circuit(user_info: dict , chat_history : list ) -> str:
     )
 
     relevant_docs = retriever.invoke(str(user_info))
+    days = user_info.get("days" , "3")
+    region = user_info.get("region", "(not specified)")
 
     combined_input = (
-        "You're an expert in circuit design, and your goal is to provide an insightful and structured analysis "
-        "of the circuit requirements. Please ensure the response is detailed, well-organized, and easy to follow.\n\n"
-        "### User Context\n"
+        "You're an expert travel planner. Your task is to create a detailed, engaging, and personalized "
+        f"{days}-day itinerary for a trip to {region}. Please ensure the response includes key highlights, "
+        "scenic routes, local cuisine recommendations, and historical or cultural experiences.\n\n"
+        "### User Preferences\n"
         f"{str(user_info)}\n\n"
-        "### Relevant Information\n"
+        "### Relevant Travel Information\n"
         + "\n\n".join([f"- {doc.page_content}" for doc in relevant_docs]) +
         "\n\n"
-        "Please present the analysis in a clear, engaging manner, as if explaining to an engineer eager to optimize their circuit design. "
-        "Use a friendly yet professional tone, breaking down complex concepts into easy-to-understand sections."
+        f"Break down the plan day by day, starting with the arrival on Day 1 and ending with the departure on Day {days}. "
+        "Make the itinerary structured, easy to follow, and inspiring. Use a friendly and professional tone, catering to the user's interests."
     )
 
     model = ChatOpenAI(model="gpt-4o")
     
     messages = chat_history
     messages += [
-        SystemMessage(content="You are a knowledgeable circuit design assistant who provides engaging, structured, and easy-to-read responses."),
+        SystemMessage(content="You are a travel planning assistant who provides engaging, well-structured, and easy-to-read itineraries."),
         HumanMessage(content=combined_input),
     ]
     

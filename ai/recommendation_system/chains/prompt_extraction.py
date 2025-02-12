@@ -26,8 +26,9 @@ Extract the following details:
 - Intent: either "suggestions" (for destination suggestions) or "circuit" (for circuit creation).
 - Preferences: list any travel preferences mentioned.
 - Budget: if a budget interval is mentioned, extract it in the format "min-max" (e.g., "500-1000").
+- Days: how many days the trip would be
  
-Return your answer as a JSON object with keys: region , cities, intent, preferences, budget.
+Return your answer as a JSON object with keys: region , cities, intent, preferences, budget , days.
 
 """,
     ),
